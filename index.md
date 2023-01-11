@@ -161,7 +161,8 @@ In addition to the above optimizations, Xorbits has made efforts in various aspe
 to have an adaptive tiling strategy, making tiling more flexible and intelligent, allowing Xorbits to dynamically adjust 
 the data partitioning based on the runtime load. Support for arrow dtype allows Xorbits to have an advantage in 
 handling strings. Xorbits can utilize GPU acceleration for data processing and is also trying to optimize 
-communication overhead. All of these make Xorbits become the most competitive product on the market. 
+communication overhead. All of these make Xorbits stand out among these data science libraries, making it 
+the best choice for your data analysis.
 
 ## Conclusion
 I hope this blog has given you a basic understanding of Xorbits, the following articles in this series will delve 
