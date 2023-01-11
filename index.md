@@ -245,6 +245,7 @@ handling strings. Xorbits can utilize GPU acceleration for data processing and i
 communication overhead. All of these make Xorbits become the most competitive product on the market. 
 
 ## Conclusion
-I hope this blog has given you a basic understanding of Xorbits, and if it has inspired you,
+I hope this blog has given you a basic understanding of Xorbits, the following articles in this series will delve 
+deeper into the implementation details of each component. If it has inspired you,
 [getting started](https://doc.xorbits.io/en/latest/getting_started/index.html) and having fun!
 
