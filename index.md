@@ -54,7 +54,7 @@ operation is needed by the user and execute at the appropriate time.
 
 Consider the following code, not all variables are executed.
 
-![](deferred.png)
+<img src="deferred.png" alt="drawing" width="60%"/>
 
 Xorbits will only execute the last expression and print it, the variable `max_rating` will not be computed because it
 has no relation to the final result, and all intermediate variables will not be stored either. Deferred execution can
@@ -72,7 +72,7 @@ Xorbits uses a divide-and-conquer strategy to run tasks in parallel, the executi
 
 Let's take a look at how this code runs in Xorbits.
 
-![](sample.png)
+<img src="sample.png" alt="drawing" width="60%"/>
 
 ### Building computation graph
 When you call a function, Xorbits builds a computation graph in the background, with each function corresponding 
@@ -127,7 +127,7 @@ unnecessary columns, in some scenarios the amount of computation can be reduced 
 
 Here's a simple example:
 
-![](optimization.png)
+<img src="optimization.png" alt="drawing" width="60%"/>
 
 By traversing backwards from the final operator "groupby" and using the information recorded by the optimizer, it can be 
 determined that only the "column_a" and "column_b" columns are needed for the final result. So it will only read 
@@ -144,7 +144,7 @@ Xorbits proposes a fusion algorithm based on coloring. First, assign different i
 to the bands that assigned by assigner, then propagate the colors through both a forward and backward traversal. 
 Finally, merge the nodes with the same color into a single subgraph.
 
-![](fusion.png)
+<img src="fusion.png" alt="drawing" width="60%"/>
 
 As shown in the picture, the operations 1 and 2 are colored with 1, and operations 5 and 6 are colored with 2. 
 Then the colors propagate in topological order; operation 3 receives only one type of color, so it is also colored 
