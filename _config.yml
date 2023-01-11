@@ -1,1 +1,6 @@
-remote_theme: pages-themes/minimal@v0.2.0
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    default_lang: python
+    css_class: "syntax"
