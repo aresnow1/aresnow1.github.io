@@ -8,8 +8,8 @@ especially when data volume exceeds the memory capacity of a single machine. Xor
 providing a solution for scaling and accelerating data science workloads, including, but not limited to, those 
 utilizing the aforementioned libraries.
 
-This series of blog posts will address why Xorbits is special and how Xorbits works. As the first in this series,
-this article introduces the overview of Xorbits internals and designs.
+This series of blog posts will explain why Xorbits is special and how Xorbits works. As the first in this series,
+this article provides the overview of Xorbits internals and designs.
 
 ## Easy to use
 This is the first thing to be considered when Xorbits was created. The user communities of Pandas, Numpy and 
@@ -22,70 +22,12 @@ compatible with existing data science libraries, data engineers don't have to le
 so seamless to scale your Pandas or Numpy codes.
 
 Compare with Pandas:
-<table>
-<tr>
-<th>Xorbits</th>
-<th>Pandas</th>
-</tr>
-<tr>
-<td>
 
-```python
-import xorbits.numpy as np
-import xorbits.pandas as pd
-size = 100000000
-df = pd.DataFrame(np.random.rand(size, 4),
-                  columns=list('abcd'))
-print(df.sum())
-```
-
-</td>
-<td>
-
-```python
-import numpy as np
-import pandas as pd
-size = 100000000
-df = pd.DataFrame(np.random.rand(size, 4),
-                  columns=list('abcd'))
-print(df.sum())
-```
-
-</td>
-</tr>
-</table>
+![](pandas.png)
 
 Compare with Numpy:
-<table>
-<tr>
-<th>Xorbits</th>
-<th>Numpy</th>
-</tr>
-<tr>
-<td>
 
-```python
-import xorbits.numpy as np
-N = 200_000_000
-a = np.random.uniform(-1, 1, size=(N, 2))
-print((np.linalg.norm(a, axis=1) < 1)
-      .sum() * 4 / N)
-```
-
-</td>
-<td>
-
-```python
-import numpy as np
-N = 200_000_000
-a = np.random.uniform(-1, 1, size=(N, 2))
-print((np.linalg.norm(a, axis=1) < 1)
-      .sum() * 4 / N)
-```
-
-</td>
-</tr>
-</table>
+![](numpy.png)
 
 From local validation on a small scale to analysis on a large scale, Xorbits doesn't need to rewrite your Python code or
 translate it into other languages like SQL, it makes you focus on data itself not on tools.
@@ -112,16 +54,7 @@ operation is needed by the user and execute at the appropriate time.
 
 Consider the following code, not all variables are executed.
 
-```python
-import xorbits.pandas as pd
-
-ratings = pd.read_csv("rating.csv")
-max_rating = ratings["rating"].max()
-gb = ratings.groupby("movieId", as_index=False).agg(
-    {"rating": ["mean", "count"]})
-gb.columns = ["movieID", "mean", "count"]
-print(gb.sort_values(by="mean").head(100))
-```
+![](deferred.png)
 
 Xorbits will only execute the last expression and print it, the variable `max_rating` will not be computed because it
 has no relation to the final result, and all intermediate variables will not be stored either. Deferred execution can
@@ -139,16 +72,7 @@ Xorbits uses a divide-and-conquer strategy to run tasks in parallel, the executi
 
 Let's take a look at how this code runs in Xorbits.
 
-```python
-import xorbits.numpy as np
-import xorbits.pandas as pd
-# It starts with a 10x10 ones array that divided into 4 5x5 arrays.
-a = np.ones((10, 10), chunk_size=5)
-a[5, 5] = 8
-df = pd.DataFrame(a)
-s = df.sum()
-print(s)
-```
+![](sample.png)
 
 ### Building computation graph
 When you call a function, Xorbits builds a computation graph in the background, with each function corresponding 
@@ -203,12 +127,7 @@ unnecessary columns, in some scenarios the amount of computation can be reduced 
 
 Here's a simple example:
 
-```python
-import xorbits.pandas as pd
-df = pd.read_csv("data.csv")
-df = df[df.column_a > 5]
-df = df.groupby("column_b")["column_a"].mean()
-```
+![](optimization.png)
 
 By traversing backwards from the final operator "groupby" and using the information recorded by the optimizer, it can be 
 determined that only the "column_a" and "column_b" columns are needed for the final result. So it will only read 
